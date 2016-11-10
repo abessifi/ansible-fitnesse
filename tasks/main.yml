@@ -1,0 +1,17 @@
+---
+
+# - include: validate.yml
+
+- include: prepare.yml
+  tags:
+    - fitnesse-setup
+
+# - include: install.yml
+#   tags:
+#     - fitnesse-setup
+
+# - include: configure.yml
+
+# - include: service.yml
+
+- include: browsers.yml

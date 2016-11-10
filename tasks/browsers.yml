@@ -1,0 +1,53 @@
+---
+
+- stat:
+    path: "/opt/firefox/{{ fitnesse_firefox_version }}"
+  register: firefox_target_dir
+  tags:
+    - fitnesse-install-firefox
+
+- debug:
+    msg: "'/opt/firefox/{{ fitnesse_firefox_version }}' directory exists already !"
+  tags:
+    - fitnesse-install-firefox
+
+- name: Create firefox home directory
+  file:
+    path: '/opt/firefox/'
+    state: directory
+  become: yes
+  tags:
+    - fitnesse-install-firefox
+
+- name: Install specific version of firefox
+  unarchive:
+    src: "https://ftp.mozilla.org/pub/firefox/releases/{{ fitnesse_firefox_version }}/linux-x86_64/en-US/firefox-{{ fitnesse_firefox_version }}.tar.bz2"
+    dest: '/opt/firefox/'
+    copy: no
+  become: yes
+  when: not firefox_target_dir.stat.exists
+  tags:
+    - fitnesse-install-firefox
+
+- stat:
+    path: '/opt/firefox/firefox'
+  register: firefox_unarchived_dir
+  tags:
+    - fitnesse-install-firefox
+
+- name: Create firefox home directory
+  shell: "mv /opt/firefox/firefox /opt/firefox/{{ fitnesse_firefox_version }}"
+  become: yes
+  when: firefox_unarchived_dir.stat.exists
+  tags:
+    - fitnesse-install-firefox
+
+- name: Update alternatives for firefox
+  alternatives:
+    name: firefox
+    link: /usr/bin/firefox
+    path: "/opt/firefox/{{ fitnesse_firefox_version }}/firefox"
+  become: yes
+  when: fitnesse_firefox_set_default
+  tags:
+    - fitnesse-install-firefox

@@ -1,0 +1,6 @@
+# Vagrant
+test/vagrant/.vagrant/
+test/vagrant/roles/
+
+# test-kitchen
+.kitchen/

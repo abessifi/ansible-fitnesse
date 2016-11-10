@@ -1,0 +1,19 @@
+---
+
+- name: Create fitnesse group
+  group:
+    name: "{{ fitnesse.group_name }}"
+    gid: "{{ fitnesse.gid }}"
+    system: yes
+  become: yes
+
+- name: Create fitnesse user
+  user:
+    name: "{{ fitnesse.user_name }}"
+    comment: 'FitNesse User'
+    uid: "{{ fitnesse.uid }}"
+    group: "{{ fitnesse.group_name }}"
+    shell: /bin/bash
+    home: "{{ fitnesse.home_dir }}"
+    system: yes
+  become: yes

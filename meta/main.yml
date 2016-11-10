@@ -1,0 +1,35 @@
+---
+
+galaxy_info:
+  author: Ahmed Bessifi
+  description: Install FitNesse acceptance testing framework on GNU/Linux servers.
+  license: MIT
+  min_ansible_version: 2.0
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - trusty
+    # - name: Debian
+    #   versions:
+    #     - jessie
+    # - name: EL
+    #   versions:
+    #     - 7
+    # - name: Fedora
+    #   versions:
+    #     - all
+    # - name: opensuse
+    #   versions:
+    #     - all
+    # - name: SLES
+    #   versions:
+    #     - all
+
+  galaxy_tags:
+    - fitnesse
+    - testing
+    - development
+
+dependencies:
+  - { role: abessifi.java, become: yes, java_jdk_type: 'oracle' }
