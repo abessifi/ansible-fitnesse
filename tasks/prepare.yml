@@ -1,5 +1,19 @@
 ---
 
+- name: RedHat | Install dependency packages
+  yum:
+    name: "{{ item }}"
+  with_items: "{{ fitnesse_pkg_depends.rh }}"
+  become: yes
+  when: ansible_os_family == 'RedHat'
+
+- name: Debian | Install dependency packages
+  apt:
+    name: "{{ item }}"
+  with_items: "{{ fitnesse_pkg_depends.deb }}"
+  become: yes
+  when: ansible_os_family == 'Debian'
+
 - name: Create fitnesse group
   group:
     name: "{{ fitnesse.group_name }}"
@@ -16,4 +30,12 @@
     shell: /bin/bash
     home: "{{ fitnesse.home_dir }}"
     system: yes
+  become: yes
+
+- name: Create fitnesse lib directory
+  file:
+    path: "{{ fitnesse.lib_dir }}"
+    owner: "{{ fitnesse.user_name }}"
+    group: "{{ fitnesse.group_name }}"
+    state: directory
   become: yes

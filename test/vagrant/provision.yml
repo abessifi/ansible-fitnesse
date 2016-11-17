@@ -4,4 +4,3 @@
   roles:
     - role: ansible-fitnesse
       fitnesse_firefox_version: '42.0'
-      fitnesse_firefox_set_default: true

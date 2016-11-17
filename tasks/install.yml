@@ -1,1 +1,31 @@
 ---
+
+- name: Download FitNesse jar file
+  get_url:
+    url: "http://www.fitnesse.org/fitnesse-standalone.jar?responder=releaseDownload&release={{ fitnesse_version }}"
+    dest: "{{ fitnesse.lib_dir }}/fitnesse-standalone.jar"
+    owner: "{{ fitnesse.user_name }}"
+    group: "{{ fitnesse.group_name }}"
+    mode: 0440
+  become: true
+  when: fitnesse_get_project
+
+- name: Download and install Xebium jar file
+  get_url:
+    url: "{{ fitnesse_xebium_download_url }}"
+    dest: "{{ fitnesse.lib_dir }}/xebium.jar"
+    owner: "{{ fitnesse.user_name }}"
+    group: "{{ fitnesse.group_name }}"
+    mode: 0440
+  become: true
+  when: fitnesse_get_xebium
+
+- name: Checkout fitnesse tests project
+  unarchive:
+    src: "{{ fitnesse_project_download_url }}"
+    dest: "{{ fitnesse.home_dir }}"
+    copy: no
+    owner: "{{ fitnesse.user_name }}"
+    group: "{{ fitnesse.group_name }}"
+  become: yes
+  when: fitnesse_get_project and ( not fitnesse_root_dir.stat.exists or fitnesse_clean_install )

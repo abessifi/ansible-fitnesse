@@ -1,0 +1,14 @@
+# Ubuntu upstart file at /etc/init/fitnesse.conf
+
+description "This is an job configuration for FitNesse service"
+author "Ahmed Bessifi"
+
+respawn
+respawn limit 15 5
+
+start on runlevel [2345]
+stop on runlevel [06]
+
+script
+su - fitnesse -c "java {{ fitnesse_java_options }} -jar {{ fitnesse.lib_dir }}/fitnesse-standalone.jar -p {{ fitnesse_service_port }} -v"
+end script

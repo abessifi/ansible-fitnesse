@@ -1,0 +1,13 @@
+[Unit]
+Description=FitNesse
+
+[Service]
+Type=idle
+User={{ fitnesse.user_name }}
+Group={{ fitnesse.group_name }}
+WorkingDirectory={{ fitnesse.home_dir }}
+ExecStart=/usr/bin/java {{ fitnesse_java_options }} -jar {{ fitnesse.lib_dir }}/fitnesse-standalone.jar -p {{ fitnesse_service_port }} -v
+ExecStop=/usr/bin/wget -qO- http://localhost:{{ fitnesse_service_port }}/?responder=shutdown &> /dev/null
+
+[Install]
+WantedBy=multi-user.target

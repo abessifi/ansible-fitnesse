@@ -1,0 +1,21 @@
+---
+
+- name: Ubuntu | Configure fitnesse service
+  template:
+    src: 'fitnesse.upstart.j2'
+    dest: '/etc/init/fitnesse.conf'
+  become: yes
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Configure fitnesse service
+  template:
+    src: 'fitnesse.systemd.j2'
+    dest: '/etc/systemd/system/fitnesse.service'
+  become: yes
+  when: ansible_distribution in ['Debian', 'CentOS']
+
+- name: Enable fitnesse daemon
+  service:
+    name: fitnesse
+    enabled: yes
+  become: yes

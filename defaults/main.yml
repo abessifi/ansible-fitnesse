@@ -2,3 +2,11 @@
 
 fitnesse_firefox_version: '41.0'
 fitnesse_firefox_set_default: false
+fitnesse_version: '20151230'
+fitnesse_get_xebium: false
+fitnesse_xebium_download_url: ''
+fitnesse_get_project: false
+fitnesse_project_download_url: ''
+fitnesse_clean_install: false
+fitnesse_service_port: 8080 # Should be >= 1024
+fitnesse_java_options: '' # Example -Xmx1024M -Xms512M

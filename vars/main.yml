@@ -6,3 +6,10 @@ fitnesse:
   group_name: 'fitnesse'
   gid: 900
   home_dir: '/var/lib/fitnesse'
+  lib_dir: '/usr/local/lib/fitnesse'
+
+fitnesse_pkg_depends:
+  rh:
+    - wget
+  deb:
+    - wget

@@ -1,0 +1,18 @@
+---
+
+- fail:
+    msg: "The download URL of the Xebium library is required !"
+  when: fitnesse_get_xebium and ( fitnesse_xebium_download_url | trim == "" )
+
+- fail:
+    msg: "The download URL of the project FitNesseRoot tarball !"
+  when: fitnesse_get_project and ( fitnesse_project_download_url | trim == "" )
+
+- stat:
+    path: "{{ fitnesse.home_dir }}/FitNesseRoot"
+  register: fitnesse_root_dir
+  become: yes
+
+- debug:
+    msg: "A 'FitNessRoot' folder exists already in fitnesse home directory !"
+  when: fitnesse_root_dir.stat.exists

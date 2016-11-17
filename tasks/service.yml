@@ -1,0 +1,20 @@
+---
+
+- name: Stop fitnesse service
+  service:
+    name: fitnesse
+    state: stopped
+  become: yes
+  tags:
+    - fitnesse-stop-service
+    - fitnesse-restart-service
+
+- name: Start fitnesse service
+  service:
+    name: fitnesse
+    state: started
+  become: yes
+  tags:
+    - fitnesse-setup
+    - fitnesse-start-service
+    - fitnesse-restart-service
