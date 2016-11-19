@@ -8,7 +8,6 @@
     group: "{{ fitnesse.group_name }}"
     mode: 0440
   become: true
-  when: fitnesse_get_project
 
 - name: Download and install Xebium jar file
   get_url:

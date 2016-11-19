@@ -5,6 +5,7 @@
     name: fitnesse
     state: stopped
   become: yes
+  when: fitnesse_provision_mode == 'on-host'
   tags:
     - fitnesse-stop-service
     - fitnesse-restart-service
@@ -14,6 +15,7 @@
     name: fitnesse
     state: started
   become: yes
+  when: fitnesse_provision_mode == 'on-host'
   tags:
     - fitnesse-setup
     - fitnesse-start-service

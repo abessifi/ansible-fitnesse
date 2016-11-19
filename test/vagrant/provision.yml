@@ -2,5 +2,10 @@
 
 - hosts: ansible-vm
   roles:
+    # Install Oracle JDK 7
+    - role: abessifi.java
+      become: yes
+      java_jdk_type: 'oracle'
+    # Install FitNesse
     - role: ansible-fitnesse
       fitnesse_firefox_version: '42.0'

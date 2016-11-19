@@ -30,6 +30,6 @@ galaxy_info:
     - fitnesse
     - testing
     - development
+    - docker
 
-dependencies:
-  - { role: abessifi.java, become: yes, java_jdk_type: 'oracle' }
+dependencies: []

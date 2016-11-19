@@ -10,3 +10,4 @@ fitnesse_project_download_url: ''
 fitnesse_clean_install: false
 fitnesse_service_port: 8080 # Should be >= 1024
 fitnesse_java_options: '' # Example -Xmx1024M -Xms512M
+fitnesse_provision_mode: 'on-host' # or 'docker'

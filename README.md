@@ -24,21 +24,22 @@ More infos in the role's metadata file.
 
 ## Dependencies
 
-- [**`abessifi.java`**](https://galaxy.ansible.com/abessifi/docker/) - To install Oracle JDK.
+- [**`abessifi.java`**](https://galaxy.ansible.com/abessifi/docker/) - To install Oracle JDK ( version >= 7 ).
 - [**`abessifi.docker`**](https://galaxy.ansible.com/abessifi/docker/) - To install Docker Engine.
 
 ## Role Variables
 
-- **`fitnesse_firefox_version`** - Install specific Firefox version (default: `41.0`)
-- **`fitnesse_firefox_set_default`** - If set to `true` the current `fitnesse_firefox_version` of firefox with be set as system default one (default: `false`)
-- **`fitnesse_version`** - The FitNesse standalone JAR version (default: `20151230`)
+- **`fitnesse_firefox_version`** - Install specific Firefox version (default: `41.0`).
+- **`fitnesse_firefox_set_default`** - If set to `true` the current `fitnesse_firefox_version` of firefox with be set as system default one (default: `false`).
+- **`fitnesse_version`** - The FitNesse standalone JAR version (default: `20151230`).
 - **`fitnesse_get_xebium`** - If set to true, Ansible will download and install the Xebium library within the `/usr/local/lib/fitnesse` lib directory (default: `false`).
-- **`fitnesse_xebium_download_url`** - The URL to download the Xebium library (default: none)
+- **`fitnesse_xebium_download_url`** - The URL to download the Xebium library (default: none).
 - **`fitnesse_get_project`** - If set to true, Ansible will automatically download and install your FitNesse project which should be an archived `FitNesseRoot` folder (default: `false`).
-- **`fitnesse_project_download_url`** - The URL to download the tarball of FitNesse tests (default: none)
-- **`fitnesse_clean_install`** - Set this to `true` if you want to override an existing FitNesseRoot folder with new tests scripts (default: `false`)
-- **`fitnesse_service_port`** - The default port number to which FitNesse service is binded. The port number should be >=1024 (default: `8080`)
-- **`fitnesse_java_options`** - You can pass some java options to the java commande which runs FitNesse. E.g: `-Xmx2000M -Xms1000M -Duser.country=FR -Duser.language=fr -Dfile.encoding=UTF-8` (default: none)
+- **`fitnesse_project_download_url`** - The URL to download the tarball of FitNesse tests (default: none).
+- **`fitnesse_clean_install`** - Set this to `true` if you want to override an existing FitNesseRoot folder with new tests scripts (default: `false`).
+- **`fitnesse_service_port`** - The default port number to which FitNesse service is binded. The port number should be >=1024 (default: `8080`).
+- **`fitnesse_java_options`** - You can pass some java options to the java commande which runs FitNesse. E.g: `-Xmx2000M -Xms1000M -Duser.country=FR -Duser.language=fr -Dfile.encoding=UTF-8` (default: none).
+- **`fitnesse_provision_mode`** - This parameter indicates the way fitnesse framework will be installed. By default, the fitnesse service will be installed and configured directly on the targeted host(s). If the parameter is positioned to `docker`, Ansible will think provisioning a Docker image. Supported values are ['on-host', 'docker'] (default: `on-host`).
 
 ## Available tags
 
@@ -62,8 +63,18 @@ Finally call the role within you Ansible playbook:
 ---
 - hosts: all
   roles:
-    - ansible.fitnesse
+    # Install Oracle JDK 7
+    - role: abessifi.java
+      java_jdk_type: 'oracle'
+      become: yes
+    # Install FitNesse
+    - role: ansible.fitnesse
+      fitnesse_firefox_version: '42.0'
 ```
+
+## Create Docker image
+
+None
 
 ## Development and testing
 

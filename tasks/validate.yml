@@ -1,6 +1,10 @@
 ---
 
 - fail:
+    msg: "Unsupported provisioning type '{{ fitnesse_provision_mode }}' !"
+  when: fitnesse_provision_mode not in [ 'on-host', 'docker' ]
+
+- fail:
     msg: "The download URL of the Xebium library is required !"
   when: fitnesse_get_xebium and ( fitnesse_xebium_download_url | trim == "" )
 
