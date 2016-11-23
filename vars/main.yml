@@ -1,5 +1,9 @@
 ---
 
+#
+# Generic vars
+#
+
 fitnesse:
   user_name: 'fitnesse'
   uid: 900
@@ -7,9 +11,22 @@ fitnesse:
   gid: 900
   home_dir: '/var/lib/fitnesse'
   lib_dir: '/usr/local/lib/fitnesse'
+  service_port: "{{ fitnesse_service_port | default(8080) }}"
 
 fitnesse_pkg_depends:
   rh:
     - wget
   deb:
     - wget
+
+#
+# Docker vars
+#
+
+fitnesse_docker:
+  ctn_name: "{{ fitnesse_docker_ctn_name | default('fitnesse') }}"
+  img_name: "{{ fitnesse_docker_img_name | default('abessifi/fitnesse:latest') }}"
+  port_mapping:
+    - "{{ fitnesse_docker_host_port | default(8080) }}:{{ fitnesse_docker_ctn_port | default(8080) }}"
+  volumes:
+    - "{{ fitnesse.home_dir }}:{{ fitnesse.home_dir }}"

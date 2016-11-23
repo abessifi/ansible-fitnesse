@@ -1,5 +1,9 @@
 ---
 
+#
+# Tasks to install Firefox
+#
+
 - stat:
     path: "/opt/firefox/{{ fitnesse_firefox_version }}"
   register: firefox_target_dir

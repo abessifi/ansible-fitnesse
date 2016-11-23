@@ -1,6 +1,36 @@
 ---
 
-- name: Stop fitnesse service
+#
+# Handle docker container
+#
+
+- name: Docker | Stop fitnesse container
+  docker:
+    name: "{{ fitnesse_docker.ctn_name }}"
+    image: "{{ fitnesse_docker.img_name }}"
+    state: stopped
+  when: fitnesse_provision_mode == 'docker'
+  become: yes
+  tags:
+    - fitnesse-stop-service
+    - fitnesse-restart-service
+
+- name: Docker | Start fitnesse container
+  docker:
+    name: "{{ fitnesse_docker.ctn_name }}"
+    image: "{{ fitnesse_docker.img_name }}"
+    state: started
+  become: yes
+  when: fitnesse_provision_mode == 'docker'
+  tags:
+    - fitnesse-start-service
+    - fitnesse-restart-service
+
+#
+# Handle host service
+#
+
+- name: Host | Stop fitnesse service
   service:
     name: fitnesse
     state: stopped
@@ -10,7 +40,7 @@
     - fitnesse-stop-service
     - fitnesse-restart-service
 
-- name: Start fitnesse service
+- name: Host | Start fitnesse service
   service:
     name: fitnesse
     state: started

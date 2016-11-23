@@ -5,16 +5,10 @@
     - always
 
 - include: prepare.yml
-  tags:
-    - fitnesse-setup
 
 - include: install.yml
-  tags:
-    - fitnesse-setup
 
 - include: configure.yml
-  tags:
-    - fitnesse-setup
 
 - include: service.yml
 

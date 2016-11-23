@@ -8,6 +8,9 @@
     group: "{{ fitnesse.group_name }}"
     mode: 0440
   become: true
+  tags:
+    - fitnesse-setup
+    - fitnesse-build-docker-image
 
 - name: Download and install Xebium jar file
   get_url:
@@ -18,13 +21,6 @@
     mode: 0440
   become: true
   when: fitnesse_get_xebium
-
-- name: Checkout fitnesse tests project
-  unarchive:
-    src: "{{ fitnesse_project_download_url }}"
-    dest: "{{ fitnesse.home_dir }}"
-    copy: no
-    owner: "{{ fitnesse.user_name }}"
-    group: "{{ fitnesse.group_name }}"
-  become: yes
-  when: fitnesse_get_project and ( not fitnesse_root_dir.stat.exists or fitnesse_clean_install )
+  tags:
+    - fitnesse-setup
+    - fitnesse-build-docker-image

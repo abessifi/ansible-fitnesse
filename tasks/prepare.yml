@@ -1,18 +1,8 @@
 ---
 
-- name: RedHat | Install dependency packages
-  yum:
-    name: "{{ item }}"
-  with_items: "{{ fitnesse_pkg_depends.rh }}"
-  become: yes
-  when: ansible_os_family == 'RedHat'
-
-- name: Debian | Install dependency packages
-  apt:
-    name: "{{ item }}"
-  with_items: "{{ fitnesse_pkg_depends.deb }}"
-  become: yes
-  when: ansible_os_family == 'Debian'
+#
+# Run always
+#
 
 - name: Create fitnesse group
   group:
@@ -20,6 +10,8 @@
     gid: "{{ fitnesse.gid }}"
     system: yes
   become: yes
+  tags:
+    - always
 
 - name: Create fitnesse user
   user:
@@ -31,6 +23,45 @@
     home: "{{ fitnesse.home_dir }}"
     system: yes
   become: yes
+  tags:
+    - always
+
+#
+# Remove an existing container to prepare for a fresh install
+#
+
+- name: Remove fitnesse container
+  docker:
+    name: "{{ fitnesse_docker.ctn_name }}"
+    image: "{{ fitnesse_docker.img_name }}"
+    state: absent
+  become: yes
+  when: fitnesse_provision_mode == 'docker'
+  tags:
+    - fitnesse-remove-container
+#
+# Common tasks
+#
+
+- name: RedHat | Install dependency packages
+  yum:
+    name: "{{ item }}"
+  with_items: "{{ fitnesse_pkg_depends.rh }}"
+  become: yes
+  when: ansible_os_family == 'RedHat'
+  tags:
+    - fitnesse-setup
+    - fitnesse-build-docker-image
+
+- name: Debian | Install dependency packages
+  apt:
+    name: "{{ item }}"
+  with_items: "{{ fitnesse_pkg_depends.deb }}"
+  become: yes
+  when: ansible_os_family == 'Debian'
+  tags:
+    - fitnesse-setup
+    - fitnesse-build-docker-image
 
 - name: Create fitnesse lib directory
   file:
@@ -39,3 +70,6 @@
     group: "{{ fitnesse.group_name }}"
     state: directory
   become: yes
+  tags:
+    - fitnesse-setup
+    - fitnesse-build-docker-image

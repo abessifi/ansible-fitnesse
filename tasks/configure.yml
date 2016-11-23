@@ -1,11 +1,37 @@
 ---
 
+#
+# Setup FitNesse Container when provision mode is 'docker'
+#
+# NOTE: There is some issue with 'state: reload'. The docker container is reload
+# each time this task is ran even the docker images didn't change.
+# ISSUE: https://github.com/ansible/ansible-modules-core/issues/3231
+# PR: https://github.com/ansible/ansible-modules-core/pull/4443
+
+- name: Run fitnesse container
+  docker:
+    name: "{{ fitnesse_docker.ctn_name }}"
+    image: "{{ fitnesse_docker.img_name }}"
+    state: reloaded
+    ports: "{{ fitnesse_docker.port_mapping }}"
+    volumes: "{{ fitnesse_docker.volumes }}"
+  become: yes
+  when: fitnesse_provision_mode == 'docker'
+  tags:
+    - fitnesse-setup-container
+
+#
+# Setup service when provision mode is 'on-host'
+#
+
 - name: Ubuntu | Configure fitnesse service
   template:
     src: 'fitnesse.upstart.j2'
     dest: '/etc/init/fitnesse.conf'
   become: yes
   when: fitnesse_provision_mode == 'on-host' and ansible_distribution == 'Ubuntu'
+  tags:
+    - fitnesse-setup
 
 - name: Configure fitnesse service
   template:
@@ -13,6 +39,8 @@
     dest: '/etc/systemd/system/fitnesse.service'
   become: yes
   when: fitnesse_provision_mode == 'on-host' and ansible_distribution in ['Debian', 'CentOS']
+  tags:
+    - fitnesse-setup
 
 - name: Enable fitnesse daemon
   service:
@@ -20,3 +48,22 @@
     enabled: yes
   become: yes
   when: fitnesse_provision_mode == 'on-host'
+  tags:
+    - fitnesse-setup
+
+#
+# Configure an existing project for FitNesse.
+#
+
+- name: Checkout fitnesse tests project
+  unarchive:
+    src: "{{ fitnesse_project_download_url }}"
+    dest: "{{ fitnesse.home_dir }}"
+    copy: no
+    owner: "{{ fitnesse.user_name }}"
+    group: "{{ fitnesse.group_name }}"
+  become: yes
+  when: fitnesse_get_project and ( not fitnesse_root_dir.stat.exists or fitnesse_clean_install )
+  tags:
+    - fitnesse-setup
+    - fitnesse-setup-container

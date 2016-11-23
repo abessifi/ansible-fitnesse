@@ -3,5 +3,4 @@
 - hosts: localhost
   roles:
     - role: ansible-fitnesse
-      fitnesse_firefox_version: '42.0'
       fitnesse_provision_mode: 'docker'

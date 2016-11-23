@@ -1,11 +1,21 @@
 ---
 
 - hosts: ansible-vm
+
+  vars:
+    fitnesse_provision_mode: 'docker'
+
   roles:
-    # Install Oracle JDK 7
+    # Install Oracle JDK 7 if provisioning mode is 'on-host'
     - role: abessifi.java
-      become: yes
       java_jdk_type: 'oracle'
+      become: yes
+      when: fitnesse_provision_mode == 'on-host'
+    # Install Docker Engine if provisioning mode is 'docker'
+    - role: abessifi.docker
+      when: fitnesse_provision_mode == 'docker'
     # Install FitNesse
     - role: ansible-fitnesse
+      fitnesse_docker_host_port: 9090
       fitnesse_firefox_version: '42.0'
+      fitnesse_firefox_set_default: true

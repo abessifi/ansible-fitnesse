@@ -22,7 +22,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.playbook = 'provision.yml'
       ansible.inventory_path = 'vagrant-inventory.ini'
       ansible.limit = 'ansible-vm'
-      ansible.tags = 'install-java,fitnesse-setup,fitnesse-install-firefox'
+      ansible.tags = 'docker-setup,docker-install-dockerpy,fitnesse-setup-container,fitnesse-install-firefox'
       ansible.verbose = 'v'
     end
   end

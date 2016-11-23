@@ -1,7 +1,7 @@
 ---
 
 - fail:
-    msg: "Unsupported provisioning type '{{ fitnesse_provision_mode }}' !"
+    msg: "Unsupported provisioning mode '{{ fitnesse_provision_mode }}' !"
   when: fitnesse_provision_mode not in [ 'on-host', 'docker' ]
 
 - fail:

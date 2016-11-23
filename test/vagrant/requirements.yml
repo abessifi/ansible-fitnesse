@@ -1,2 +1,4 @@
 # Get Java role from Ansible Galaxy
 - src: abessifi.java
+# Get Docker role from Ansible Galaxy
+- src: abessifi.docker

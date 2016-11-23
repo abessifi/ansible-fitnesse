@@ -17,7 +17,7 @@
               "../../../ansible-fitnesse"
             ],
             "extra_arguments": [
-              "--tags=fitnesse-setup"
+              "--tags=fitnesse-build-docker-image"
             ]
         },{
             "type": "shell",
@@ -26,10 +26,24 @@
         }
     ],
     "post-processors": [
-        {
+        [{
+            "type": "docker-dockerfile",
+            "maintainer": "Ahmed Bessifi <ahmed.bessifi@gmail.com>",
+            "user": "fitnesse",
+            "workdir": "/var/lib/fitnesse",
+            "entrypoint": ["/usr/bin/java", "-jar", "/usr/local/lib/fitnesse/fitnesse-standalone.jar"],
+            "cmd": ["-p", "8080", "-v"],
+            "expose": [8080]
+        },{
             "type": "docker-tag",
-            "repository": "abessifi/fitnesse-debian-jessie",
-            "tag": "0.1"
-        }
+            "repository": "foobar/fitnesse",
+            "tag": "latest"
+        },{
+          "type": "docker-push",
+          "login": true,
+          "login_email": "foo@bar.baz",
+          "login_username": "foobar",
+          "login_password": "xxxxxx"
+        }]
     ]
 }
