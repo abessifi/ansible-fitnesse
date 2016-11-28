@@ -87,7 +87,7 @@ Here is a setup example of FitNesse on host from scratch:
 
 ### FitNesse with Docker
 
-In the other hand, you can run FitNesse through a Docker container. We have prepared an image for you and you can build yours :)
+In the other hand, you can run FitNesse through a Docker container. We have prepared [an image](https://hub.docker.com/r/abessifi/fitnesse/) for you and you can build yours :)
 
 #### Build FitNesse image
 
