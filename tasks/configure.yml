@@ -15,6 +15,8 @@
     state: reloaded
     ports: "{{ fitnesse_docker.port_mapping }}"
     volumes: "{{ fitnesse_docker.volumes }}"
+    env:
+      JAVA_TOOL_OPTIONS: "{{ fitnesse_java_options }}"
   become: yes
   when: fitnesse_provision_mode == 'docker'
   tags:
